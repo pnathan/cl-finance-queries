@@ -18,8 +18,9 @@
 (in-package :cl-finance-query)
 
 (defun current-price (reader symbol-or-symbol-list &rest specifics)
-  "`reader` denotes a packages to execute the 'current-price' from"
-)
+  "`reader` denotes a funcallable to execute the 'current-price' from"
+  (funcall reader symbol-or-symbol-list))
+
 (defun historical-prices (reader symbol-or-symbol-list start-date end-date &rest specifics))
 (defun historical-splits (reader symbol-or-symbol-list start-date end-date &rest specifics))
 (defun company-immutables (reader symbol-or-symbol-list  &rest specifics))
