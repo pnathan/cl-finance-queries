@@ -1,5 +1,5 @@
 
-x
+
 (asdf:defsystem #:cl-finance-query
   :components ((:file "cl-finance-query"))
   :name "cl-finance-query"

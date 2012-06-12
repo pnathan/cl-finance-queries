@@ -6,6 +6,8 @@
 ;;;  provide a protocol suitable for cl-<service>-finance libraries.
 
 
+;; TODO: provide an Endpoint Unsupported condition that can be raised.
+
 (defpackage :cl-finance-query
   (:use :common-lisp )
   (:export
