@@ -1,0 +1,7 @@
+
+cl-finance-query provides a Java-esque OO inheritance based API for
+finance queries.
+
+This is probably not an optimal API design, particularly given the
+power of CLOS. However, it ensures an extensibility that I was unable
+to come up with using other methods.

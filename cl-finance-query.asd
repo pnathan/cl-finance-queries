@@ -1,7 +1,9 @@
+
+x
 (asdf:defsystem #:cl-finance-query
   :components ((:file "cl-finance-query"))
   :name "cl-finance-query"
-  ;:version "dev"
+  :version "0.1"
   :maintainer "Paul Nathan"
   :author "Paul Nathan"
   :license "LLGPL"
