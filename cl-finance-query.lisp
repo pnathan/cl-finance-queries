@@ -11,10 +11,25 @@
 (defpackage :cl-finance-query
   (:use :common-lisp )
   (:export
+   :cl-finance-querier
+   :with-querier
+   :create
+   :specialization-options
+   :destroy
+
+   :pricing
    :current-price
+
+   :historical-pricing
    :historical-prices
+
+   :historical-split
    :historical-splits
+
+   :company-immutable
    :company-immutables
+
+   :company-statistics
    :company-current-statistics
    :company-historical-statistics))
 (in-package :cl-finance-query)
@@ -29,10 +44,29 @@ endpoint *except* in the case of SPECIALIZATION-OPTIONS, which will
 take options specific for the endpoint.
  "))
 
-(defgeneric specialization-options (&rest specifics))
+
+(defgeneric destroy (querier) (:documentation "Generic finalizer for a querier"))
+
+(defmacro with-querier ((obj-name type options)
+                        &body body)
+  ;; Prep a result variable
+  (let ((result-name (gensym)))
+    `(let ((,obj-name (make-instance ,type))
+           (,result-name))
+       ;; customize the object.
+       (specialization-options ,obj-name ,options)
+       ;; Pick up the result from the last form in progn
+       (setf ,result-name
+             (progn ,@body))
+       ;; Destructor
+       (destroy ,obj-name)
+       ,result-name)))
+
+(defgeneric specialization-options (object &rest specifics))
 
 (defclass pricing ()
-  (percent-change
+  (ask
+   bid
    volume
    short-ratio
    symbol
