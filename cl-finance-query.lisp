@@ -17,19 +17,57 @@
    :specialization-options
    :destroy
 
+
+   ;; Pricing object
    :pricing
+   ;; Pricing accessors
+   :name
+   :ask
+   :bid
+   :volume
+   :short-ratio
+   :symbol
+   :peg-ratio
+   :pe-ratio
+   :ebitda
+   :year-high
+   :year-low
+   :days-high
+   :days-low
+   :dividend-yield
+   :eps-estimate-next-quarter
+   ;; Function to get pricing
    :current-price
 
+   ;; Historical-Pricing object
    :historical-pricing
+   ;; Accessors
+   :date
+   :open-price
+   :high
+   :low
+   :close-price
+   :volume
+   :adjusted-close
+   ;; Function to get historical pricing
    :historical-prices
 
+   ;; Historical-split object
    :historical-split
+   ;; Accessors
+   :date
+   :split-ratio
+   ;; Function to get historical pricing
    :historical-splits
 
+   ;; Object
    :company-immutable
+   ;; Getter
    :company-immutables
 
+   ;; Object
    :company-statistics
+   ;; Getters
    :company-current-statistics
    :company-historical-statistics))
 (in-package :cl-finance-query)
@@ -64,41 +102,45 @@ take options specific for the endpoint.
 
 (defgeneric specialization-options (object &rest specifics))
 
-(defclass pricing ()
-  (ask
+(batteries:defobject pricing
+  (name
+   ask
    bid
    volume
    short-ratio
    symbol
-   pegratio
-   peratio
+   peg-ratio
+   pe-ratio
    ebitda
    year-high
    year-low
    days-high
-   days-lo
+   days-low
    dividend-yield
    eps-estimate-next-quarter)
-  (:documentation "A summary of information regarding pricing for a stock"))
+  :documentation "A summary of information regarding pricing for a stock"
+  :undecorated t)
 
 (defgeneric current-price (reader symbol-or-symbol-list)
   (:documentation "Returns a PRICING object or list of PRICING objects"))
 
-(defclass historical-pricing ()
-    (date
-     open
+(batteries:defobject historical-pricing
+    (symbol
+     date
+     open-price
      high
      low
-     close
+     close-price
      volume
      adjusted-close)
-  (:documentation "Summary information for a given time period"))
+  :documentation "Summary information for a given time period"
+  :undecorated t)
 
 (defgeneric historical-prices (reader
 			  symbol-or-symbol-list
 			  start-date
 			  end-date)
-  (:documentation "Returns a list of HISTORICAL-PRICING  objects"))
+  (:documentation "Returns a list of HISTORICAL-PRICING objects"))
 
 
 (defclass historical-split () (date split-ratio))

@@ -2,6 +2,7 @@
 
 (asdf:defsystem #:cl-finance-query
   :components ((:file "cl-finance-query"))
+  :depends-on (#:batteries)             ;pnathan personal project
   :name "cl-finance-query"
   :version "0.1"
   :maintainer "Paul Nathan"
