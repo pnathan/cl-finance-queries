@@ -1,6 +1,6 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Protocol to provide an interface for financial queries
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;  An attempt to use generic functions/interface-passing style to
 ;;;  provide a protocol suitable for cl-<service>-finance libraries.
@@ -9,7 +9,7 @@
 ;; TODO: provide an Endpoint Unsupported condition that can be raised.
 
 (defpackage :cl-finance-query
-  (:use :common-lisp )
+  (:use :common-lisp :defobject)
   (:export
    :cl-finance-querier
    :with-querier
@@ -26,7 +26,7 @@
    :bid
    :volume
    :short-ratio
-   :symbol
+   :finance-symbol
    :peg-ratio
    :pe-ratio
    :ebitda
@@ -72,6 +72,9 @@
    :company-historical-statistics))
 (in-package :cl-finance-query)
 
+(ql:quickload :defobject)
+(use-package :defobject)
+
 (defclass cl-finance-querier () ()
   (:documentation "Classes that implement a finance data-gathering API
   should inherit from this class and implement the methods on the class.
@@ -83,7 +86,8 @@ take options specific for the endpoint.
  "))
 
 
-(defgeneric destroy (querier) (:documentation "Generic finalizer for a querier"))
+(defgeneric destroy (querier)
+  (:documentation "Generic finalizer for a querier"))
 
 (defmacro with-querier ((obj-name type options)
                         &body body)
@@ -102,13 +106,13 @@ take options specific for the endpoint.
 
 (defgeneric specialization-options (object &rest specifics))
 
-(batteries:defobject pricing
+(defobject pricing
   (name
    ask
    bid
    volume
    short-ratio
-   symbol
+   finance-symbol
    peg-ratio
    pe-ratio
    ebitda
@@ -124,8 +128,8 @@ take options specific for the endpoint.
 (defgeneric current-price (reader symbol-or-symbol-list)
   (:documentation "Returns a PRICING object or list of PRICING objects"))
 
-(batteries:defobject historical-pricing
-    (symbol
+(defobject historical-pricing
+    (finance-symbol
      date
      open-price
      high
