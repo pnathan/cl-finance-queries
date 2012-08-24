@@ -26,7 +26,7 @@
    :bid
    :volume
    :short-ratio
-   :finance-symbol
+   :financial-symbol
    :peg-ratio
    :pe-ratio
    :ebitda
@@ -112,7 +112,7 @@ take options specific for the endpoint.
    bid
    volume
    short-ratio
-   finance-symbol
+   financial-symbol
    peg-ratio
    pe-ratio
    ebitda
@@ -129,7 +129,7 @@ take options specific for the endpoint.
   (:documentation "Returns a PRICING object or list of PRICING objects"))
 
 (defobject historical-pricing
-    (finance-symbol
+    (financial-symbol
      date
      open-price
      high
